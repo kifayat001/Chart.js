@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Animated Weight Comparison Chart</title>
+  <!-- Chart.js CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+  <style>
+    /* Canvas styling for better video output */
+    body {
+      background-color: #f4f4f4;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      font-family: Arial, sans-serif;
+    }
+    canvas {
+      max-width: 800px;
+      max-height: 600px;
+      border: 1px solid #ccc;
+      background-color: #fff;
+    }
+  </style>
+</head>
+<body>
+  <!-- Canvas for chart -->
+  <canvas id="weightChart"></canvas>
+
+  <script>
+    // Get canvas context
+    const ctx = document.getElementById('weightChart').getContext('2d');
+
+    // Chart configuration
+    const chart = new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: ['Earth', 'Mars', 'Moon'],
+        datasets: [{
+          label: 'Weight of 40 kg (N)',
+          data: [392, 148.4, 64.8],
+          backgroundColor: ['#36A2EB', '#FF6384', '#FFCE56'],
+          borderColor: ['#2A80B9', '#CC4F6B', '#CCA300'],
+          borderWidth: 2
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: true,
+        animation: {
+          duration: 3000, // Total animation duration (3 seconds)
+          easing: 'easeOutBounce', // Fun bounce effect for video
+          onProgress: function(animation) {
+            // Optional: Can be used for frame capture in video conversion
+          },
+          // Sequential bar animation
+          delay: (context) => context.dataIndex * 1000 // 1s delay per bar
+        },
+        scales: {
+          y: {
+            beginAtZero: true,
+            title: {
+              display: true,
+              text: 'Weight (Newtons)',
+              font: { size: 16 }
+            },
+            grid: { color: '#ddd' }
+          },
+          x: {
+            title: {
+              display: true,
+              text: 'Celestial Body',
+              font: { size: 16 }
+            }
+          }
+        },
+        plugins: {
+          title: {
+            display: true,
+            text: 'Weight of 40 kg on Different Bodies (G = 6.674 × 10⁻¹¹)',
+            font: { size: 20 },
+            padding: 20
+          },
+          legend: {
+            labels: { font: { size: 14 } }
+          },
+          tooltip: {
+            enabled: true, // Tooltips for interactivity
+            backgroundColor: 'rgba(0,0,0,0.7)',
+            titleFont: { size: 14 },
+            bodyFont: { size: 12 }
+          }
+        }
+      }
+    });
+  </script>
+</body>
+</html>
